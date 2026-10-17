@@ -63,25 +63,29 @@ def test_cannon_cannot_capture_without_screen():
 def test_cannon_cannot_move_with_blocking_piece():
     """Test cannon cannot move through pieces when not capturing"""
     g = Board()
-    # Cannon at (1,2) cannot move to (1,4) because soldier at (0,3) or (2,3)... wait
-    # Actually, let me check the board layout. Cannon is at (1,2), soldiers are at ranks 3 and 6
+    # Move horse to (2,2) to block the cannon's horizontal path
+    g.make_move(1, 0, 2, 2)
+    g.make_move(4, 6, 4, 5)
 
-    # Try to move cannon through soldier - should fail
+    # Cannon at (1,2) cannot move to (3,2) because horse at (2,2) blocks the path
     with pytest.raises(IllegalMove):
-        g.make_move(1, 2, 1, 4)
+        g.make_move(1, 2, 3, 2)
 
 
 def test_cannon_cannot_capture_with_two_screens():
     """Test cannon cannot capture if there are 2+ pieces in between"""
     g = Board()
-    # Set up: cannon, soldier1, soldier2, enemy
+    # Set up: cannon at (4,2), red soldier at (4,3), black soldier at (4,4), black soldier at (4,6)
     g.make_move(1, 2, 4, 2)
     g.make_move(4, 6, 4, 5)
+    g.make_move(0, 3, 0, 4)
+    g.make_move(4, 5, 4, 4)
+    g.make_move(0, 4, 0, 5)
+    g.make_move(2, 6, 2, 5)
 
-    # Now: cannon at (4,2), red soldier at (4,3), black soldier at (4,5)
-    # Try to capture - should fail because only 1 screen is allowed
+    # Cannon at (4,2) trying to capture at (4,6) has 2 screens (4,3) and (4,4) - should fail
     with pytest.raises(IllegalMove):
-        g.make_move(4, 2, 4, 5)
+        g.make_move(4, 2, 4, 6)
 
 
 def test_cannon_cannot_move_diagonally():
@@ -95,34 +99,29 @@ def test_cannon_cannot_move_diagonally():
 def test_cannon_horizontal_capture():
     """Test cannon can capture horizontally with a screen"""
     g = Board()
-    # Move cannon to position for horizontal capture
+    # Move cannon to (3,4)
     g.make_move(1, 2, 1, 4)
-    g.make_move(1, 7, 1, 5)
-
-    # Move cannon horizontally
+    g.make_move(6, 6, 6, 5)
     g.make_move(1, 4, 3, 4)
-    g.make_move(1, 5, 3, 5)
+    g.make_move(6, 5, 6, 4)
 
-    # Now red cannon at (3,4), red soldier at (4,3)... need to position for horizontal capture
-    # Move soldier to be screen
+    # Move soldier to (4,4) to be the screen
     g.make_move(4, 3, 4, 4)
-    g.make_move(3, 5, 4, 5)
+    g.make_move(6, 4, 5, 4)
 
-    # Now capture
-    g.make_move(3, 4, 6, 4)
+    # Now capture black soldier at (5,4) with screen at (4,4)
+    g.make_move(3, 4, 5, 4)
 
 
 def test_cannon_cannot_jump_to_empty():
     """Test cannon cannot jump over piece to move to empty square"""
     g = Board()
-    # Move soldier
+    # Move black cannon to (1,3) to be the screen
     g.make_move(0, 3, 0, 4)
-    g.make_move(0, 6, 0, 5)
+    g.make_move(1, 7, 1, 5)
+    g.make_move(0, 4, 0, 5)
+    g.make_move(1, 5, 1, 3)
 
-    # Move cannon next to soldier
-    g.make_move(1, 2, 1, 3)
-    g.make_move(1, 7, 1, 6)
-
-    # Try to jump over soldier to empty square
+    # Try to jump over black cannon at (1,3) to empty square (1,4)
     with pytest.raises(IllegalMove):
-        g.make_move(1, 3, 1, 5)
+        g.make_move(1, 2, 1, 4)

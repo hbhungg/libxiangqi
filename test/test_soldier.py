@@ -38,28 +38,28 @@ def test_black_soldier_no_move_sideway_before_river():
 def test_red_soldier_move_sideway_after_river():
     """Test red soldier can move sideways after crossing river"""
     g = Board()
-    # Move soldier across river (rank > 4)
-    g.make_move(4, 3, 4, 4)
-    g.make_move(4, 6, 4, 5)
-    g.make_move(4, 4, 4, 5)
+    # Move soldier across river on file 2 (file 4 would expose the flying general)
+    g.make_move(2, 3, 2, 4)
+    g.make_move(2, 6, 2, 5)
+    g.make_move(2, 4, 2, 5)
     g.make_move(0, 6, 0, 5)
 
     # Now soldier can move sideways
-    g.make_move(4, 5, 3, 5)
+    g.make_move(2, 5, 1, 5)
 
 
 def test_black_soldier_move_sideway_after_river():
     """Test black soldier can move sideways after crossing river"""
     g = Board()
-    # Move black soldier across river (rank < 5)
-    g.make_move(4, 3, 4, 4)
-    g.make_move(4, 6, 4, 5)
+    # Move black soldier across river on file 2 (file 4 would expose the flying general)
+    g.make_move(2, 3, 2, 4)
+    g.make_move(2, 6, 2, 5)
     g.make_move(0, 3, 0, 4)
-    g.make_move(4, 5, 4, 4)
+    g.make_move(2, 5, 2, 4)
     g.make_move(0, 4, 0, 5)
 
     # Black soldier can now move sideways
-    g.make_move(4, 4, 3, 4)
+    g.make_move(2, 4, 1, 4)
 
 
 def test_red_soldier_cannot_move_backward():
@@ -141,11 +141,11 @@ def test_soldier_sideways_capture_after_river():
     g = Board()
     # Get red soldier across river
     g.make_move(4, 3, 4, 4)
-    g.make_move(3, 6, 3, 5)
+    g.make_move(1, 7, 1, 5)
     g.make_move(4, 4, 4, 5)
-    g.make_move(3, 5, 3, 4)
+    g.make_move(1, 5, 3, 5)
 
-    # Soldier can capture sideways
+    # Soldier captures black cannon sideways
     g.make_move(4, 5, 3, 5)
 
 
@@ -177,42 +177,42 @@ def test_black_soldier_at_river_boundary():
 def test_red_soldier_just_crossed_river():
     """Test red soldier at rank 5 (just crossed) can move sideways"""
     g = Board()
-    # Cross river to rank 5
-    g.make_move(4, 3, 4, 4)
-    g.make_move(4, 6, 4, 5)
-    g.make_move(4, 4, 4, 5)
+    # Cross river to rank 5 on file 2 (file 4 would expose the flying general)
+    g.make_move(2, 3, 2, 4)
+    g.make_move(2, 6, 2, 5)
+    g.make_move(2, 4, 2, 5)
     g.make_move(0, 6, 0, 5)
 
     # Can now move sideways
-    g.make_move(4, 5, 3, 5)
+    g.make_move(2, 5, 1, 5)
 
 
 def test_black_soldier_just_crossed_river():
     """Test black soldier at rank 4 (just crossed) can move sideways"""
     g = Board()
-    # Cross river to rank 4
-    g.make_move(4, 3, 4, 4)
-    g.make_move(4, 6, 4, 5)
+    # Cross river to rank 4 on file 2 (file 4 would expose the flying general)
+    g.make_move(2, 3, 2, 4)
+    g.make_move(2, 6, 2, 5)
     g.make_move(0, 3, 0, 4)
-    g.make_move(4, 5, 4, 4)
+    g.make_move(2, 5, 2, 4)
     g.make_move(0, 4, 0, 5)
 
     # Can now move sideways
-    g.make_move(4, 4, 3, 4)
+    g.make_move(2, 4, 1, 4)
 
 
 def test_soldier_cannot_move_sideways_both_directions_at_once():
     """Test soldier can only move one direction at a time"""
     g = Board()
-    # Cross river
-    g.make_move(4, 3, 4, 4)
-    g.make_move(4, 6, 4, 5)
-    g.make_move(4, 4, 4, 5)
+    # Cross river on file 2 (file 4 would expose the flying general)
+    g.make_move(2, 3, 2, 4)
+    g.make_move(2, 6, 2, 5)
+    g.make_move(2, 4, 2, 5)
     g.make_move(0, 6, 0, 5)
 
     # Move sideways left
-    g.make_move(4, 5, 3, 5)
+    g.make_move(2, 5, 1, 5)
     g.make_move(0, 5, 0, 4)
 
     # Can move sideways right from new position
-    g.make_move(3, 5, 4, 5)
+    g.make_move(1, 5, 2, 5)

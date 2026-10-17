@@ -32,12 +32,12 @@ def test_chariot_move_horizontal():
     g.make_move(0, 3, 0, 4)
     g.make_move(0, 6, 0, 5)
 
-    # Move chariot up
-    g.make_move(0, 0, 0, 2)
+    # Move chariot up to rank 1 (clear of the cannons on rank 2)
+    g.make_move(0, 0, 0, 1)
     g.make_move(0, 5, 0, 4)
 
-    # Move chariot horizontally
-    g.make_move(0, 2, 3, 2)
+    # Move chariot horizontally across rank 1
+    g.make_move(0, 1, 8, 1)
 
 
 def test_chariot_blocked_by_own_piece():
@@ -65,14 +65,14 @@ def test_chariot_blocked_by_enemy_piece():
 def test_chariot_can_capture():
     """Test chariot can capture enemy pieces"""
     g = Board()
-    # Set up capture
+    # Set up capture on file 0
     g.make_move(0, 3, 0, 4)
     g.make_move(0, 6, 0, 5)
     g.make_move(0, 0, 0, 3)
-    g.make_move(8, 6, 8, 5)
+    g.make_move(0, 5, 0, 4)
 
     # Chariot captures black soldier
-    g.make_move(0, 3, 0, 5)
+    g.make_move(0, 3, 0, 4)
 
 
 def test_chariot_cannot_capture_own_piece():
@@ -102,24 +102,22 @@ def test_chariot_long_distance_move():
     g.make_move(0, 3, 0, 4)
     g.make_move(0, 6, 0, 5)
 
-    # Move chariot multiple squares
-    g.make_move(0, 0, 0, 2)
-    g.make_move(0, 5, 0, 4)
-    g.make_move(0, 2, 5, 2)
+    # Move chariot 3 squares up
+    g.make_move(0, 0, 0, 3)
 
 
 def test_chariot_horizontal_blocked():
     """Test chariot blocked when moving horizontally"""
     g = Board()
-    # Move chariot up
+    # Move chariot up to rank 2
     g.make_move(0, 3, 0, 4)
     g.make_move(0, 6, 0, 5)
-    g.make_move(0, 0, 0, 1)
+    g.make_move(0, 0, 0, 2)
     g.make_move(0, 5, 0, 4)
 
-    # Try to move through horse
+    # Try to move through cannon at (1,2)
     with pytest.raises(IllegalMove):
-        g.make_move(0, 1, 2, 1)
+        g.make_move(0, 2, 2, 2)
 
 
 def test_chariot_can_move_full_board():
@@ -129,9 +127,9 @@ def test_chariot_can_move_full_board():
     g.make_move(0, 3, 0, 4)
     g.make_move(8, 6, 8, 5)
 
-    # Move chariot far
-    g.make_move(0, 0, 0, 2)
+    # Move chariot to rank 1, then traverse the full board
+    g.make_move(0, 0, 0, 1)
     g.make_move(8, 5, 8, 4)
-    g.make_move(0, 2, 7, 2)
+    g.make_move(0, 1, 8, 1)
 
 

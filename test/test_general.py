@@ -20,7 +20,9 @@ def test_red_general_move_sideways():
     g.make_move(4, 3, 4, 4)
     g.make_move(4, 6, 4, 5)
 
-    # Move general sideways
+    # Move advisor out of the way, then move general sideways
+    g.make_move(3, 0, 4, 1)
+    g.make_move(0, 6, 0, 5)
     g.make_move(4, 0, 3, 0)
 
 

@@ -22,6 +22,10 @@ def test_black_horse_move_l_shape():
 def test_horse_all_l_directions():
     """Test horse can move in all 8 L-shape directions"""
     g = Board()
+    # Move soldiers out of the way (they block the horse's legs at (2,3) and (2,6))
+    g.make_move(2, 3, 2, 4)
+    g.make_move(2, 6, 2, 5)
+
     # Move horse to open area
     g.make_move(1, 0, 2, 2)
     g.make_move(1, 9, 2, 7)
@@ -55,51 +59,33 @@ def test_horse_not_blocked_diagonal():
 def test_horse_blocked_horizontally():
     """Test horse blocked when moving horizontally more"""
     g = Board()
-    # Move soldier out
-    g.make_move(2, 3, 2, 4)
-    g.make_move(2, 6, 2, 5)
-
-    # Move horse to open area
+    # Move horse to (2,2)
     g.make_move(1, 0, 2, 2)
     g.make_move(1, 9, 2, 7)
-    g.make_move(2, 2, 2, 3)
-    g.make_move(2, 7, 2, 6)
 
-    # Move piece to blocking position
-    g.make_move(0, 0, 0, 2)
-    g.make_move(0, 9, 0, 7)
-    g.make_move(0, 2, 1, 2)
-    g.make_move(0, 7, 1, 7)
-
-    # Try to move horse - should be blocked at (1,3)
+    # Horse at (2,2) moving to (0,1) is blocked by the cannon at (1,2)
     with pytest.raises(IllegalMove):
-        g.make_move(2, 3, 0, 2)
+        g.make_move(2, 2, 0, 1)
 
 
 def test_horse_blocked_vertically():
     """Test horse blocked when moving vertically more"""
     g = Board()
-    # Move soldier out
-    g.make_move(2, 3, 2, 4)
-    g.make_move(1, 6, 1, 5)
-
-    # Move horse
+    # Move horse to (2,2)
     g.make_move(1, 0, 2, 2)
     g.make_move(1, 9, 2, 7)
-    g.make_move(2, 2, 1, 4)
-    g.make_move(2, 7, 1, 5)
 
-    # Horse at (1,4) trying to move to (2,6) would be blocked at (1,5) where black soldier is
+    # Horse at (2,2) moving to (1,4) is blocked by the soldier at (2,3)
     with pytest.raises(IllegalMove):
-        g.make_move(1, 4, 2, 6)
+        g.make_move(2, 2, 1, 4)
 
 
 def test_horse_cannot_move_straight():
     """Test horse cannot move in straight lines"""
     g = Board()
-    # Move soldier
-    g.make_move(1, 3, 1, 4)
-    g.make_move(1, 6, 1, 5)
+    # Move cannons out of the way
+    g.make_move(1, 2, 1, 3)
+    g.make_move(1, 7, 1, 6)
 
     # Try to move horse straight
     with pytest.raises(IllegalMove):

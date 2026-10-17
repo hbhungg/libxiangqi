@@ -131,10 +131,10 @@ def test_multiple_captures_in_game():
     g.make_move(4, 3, 4, 4)
     g.make_move(4, 6, 4, 5)
     g.make_move(4, 4, 4, 5)
-    g.make_move(3, 6, 3, 5)
+    g.make_move(2, 6, 2, 5)
     g.make_move(4, 5, 4, 6)
-    g.make_move(3, 5, 3, 4)
-    g.make_move(3, 3, 3, 4)
+    g.make_move(2, 5, 2, 4)
+    g.make_move(2, 3, 2, 4)
 
 
 def test_complex_game_sequence():

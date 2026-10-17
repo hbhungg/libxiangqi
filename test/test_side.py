@@ -1,4 +1,4 @@
-from libxiangqi import Board, IllegalMove
+from libxiangqi import Board
 
 def test_side():
   b = Board()
